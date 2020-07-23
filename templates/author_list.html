@@ -1,0 +1,56 @@
+{% extends 'publisher_list.html' %}
+
+
+{% block author_active %}
+active
+{% endblock %}
+
+{% block pub_active %}
+
+{% endblock %}
+
+{% block main %}
+
+    <h2 class="sub-header">作者列表</h2>
+    <a class="btn btn-primary btn-sm" href="{% url 'author_add' %}">新增作者</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>代表作</th>
+                <th>操作</th>
+            </tr>
+
+            </thead>
+            <tbody>
+
+            {% for author in all_authors %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ author.pk }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>
+                        {% for book in author.books.all %}
+                            《 {{ book.name }} 》
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" href="{% url 'del' 'author' author.pk %}">删除</a>
+                        <a class="btn btn-primary btn-sm" href="/author_edit/?id={{ author.pk }}">编辑</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+    </table>
+    </div>
+
+    {% load mytags %}
+
+    {% pagination 10 %}
+
+{% endblock %}
